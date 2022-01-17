@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Alert, StyleSheet, View } from 'react-native';
 
 import { Header } from '../components/Header';
 import { Task, TasksList } from '../components/TasksList';
@@ -9,12 +9,18 @@ export function Home() {
   const [tasks, setTasks] = useState<Task[]>([]);
 
   function handleAddTask(newTaskTitle: string) {
+    let taskExists = tasks.find(task => {
+      if(task.title == newTaskTitle){
+        Alert.alert("Task já cadastrada", "Você não pode cadastrar uma task com o mesmo nome")
+        return task
+      }
+    })
     let newTask = {
-        id: new Date().getTime(),
-        title: newTaskTitle,
-        done: false
+      id: new Date().getTime(),
+      title: newTaskTitle,
+      done: false
     }
-    setTasks(oldTasks => [...oldTasks, newTask])
+    !taskExists ? setTasks(oldTasks => [...oldTasks, newTask]) : ""      
   }
 
   function handleToggleTaskDone(id: number) {
