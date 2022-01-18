@@ -32,6 +32,15 @@ export function Home() {
     })
   }
 
+  function handleEditTask(taskId: number, taskNewTitle: string){
+    const taskTitleUpdate = tasks.find(task => task.id == taskId ? task.title = taskNewTitle : "")
+    const updatedTasks = tasks.map(task => ({ ...task }), ({taskTitleUpdate}))
+    setTasks(() => [])
+    updatedTasks.map(task => {
+      setTasks(oldTasks => [...oldTasks, task])
+    })
+  }
+
   function handleRemoveTask(id: number) {
     Alert.alert("Remover item",
       "Tem certeza que você deseja remover esse item?",
@@ -55,7 +64,8 @@ export function Home() {
       <TasksList 
         tasks={tasks} 
         toggleTaskDone={handleToggleTaskDone}
-        removeTask={handleRemoveTask} 
+        removeTask={handleRemoveTask}
+        editTask={handleEditTask} 
       />
     </View>
   )
